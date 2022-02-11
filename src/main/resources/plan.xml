@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="base_resource" targetRuntime="MyBatis3" defaultModelType="flat">
+        <!-- 数据库关键字冲突,自动处理 -->
+        <property name="autoDelimitKeywords" value="true"/>
+        <!-- 用反引号`包裹,默认是双引号"-->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <!-- 分页插件 -->
+<!--        <plugin type="com.cmcc.coc.ummp.common.common.mybatis.MySQLLogicalDeletePlugin">-->
+<!--            &lt;!&ndash; 是否生成manager &ndash;&gt;-->
+<!--            <property name="generateManager" value="false"/>-->
+<!--            &lt;!&ndash; 是否生成controller &ndash;&gt;-->
+<!--            <property name="generateController" value="false"/>-->
+<!--            &lt;!&ndash; 是否使用lombok &ndash;&gt;-->
+<!--            <property name="enableLombok" value="true"/>-->
+<!--        </plugin>-->
+
+        <!-- 注释，修改配置会影响MySQLPaginationPlugin的执行 -->
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 / false:否，代码merge会被禁用 -->
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="false"/>
+            <property name="addRemarkComments" value="true"/>
+        </commentGenerator>
+
+        <!--数据库链接URL，用户名、密码 -->
+        <jdbcConnection
+                connectionURL="jdbc:mysql://127.0.0.1:3306/springboot_demo?useUnicode=true&amp;characterEncoding=UTF-8&amp;nullCatalogMeansCurrent=true"
+                driverClass="com.mysql.cj.jdbc.Driver" password="1223" userId="root"/>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+        </javaTypeResolver>
+        <!-- 生成模型的包名和位置 -->
+        <javaModelGenerator targetPackage="com.tencent.wxcloudrun.model"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 生成映射文件的包名和位置 -->
+        <sqlMapGenerator targetPackage="com.tencent.wxcloudrun.mapper"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 生成DAO的包名和位置 -->
+        <javaClientGenerator targetPackage="com.tencent.wxcloudrun.dao"
+                             targetProject="src/main/java"
+                             type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <table domainObjectName="user_info" tableName="userInfo">
+            <generatedKey column="id"
+                          sqlStatement="mysql"
+                          identity="true" type="post"/>
+        </table>
+    </context>
+</generatorConfiguration>
