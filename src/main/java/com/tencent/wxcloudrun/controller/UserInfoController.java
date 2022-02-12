@@ -1,6 +1,7 @@
 package com.tencent.wxcloudrun.controller;
 
 import com.tencent.wxcloudrun.config.ApiResponse;
+import com.tencent.wxcloudrun.dto.CodeRequest;
 import com.tencent.wxcloudrun.model.UserInfo;
 import com.tencent.wxcloudrun.service.UserInfoService;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -35,22 +37,21 @@ public class UserInfoController {
 
     @PostMapping(value = "/api/register")
     ApiResponse addUser(@RequestBody UserInfo userInfo) {
-        logger.info("/api/register post request");
-//        UserInfo userInfo = new UserInfo();
-//        userInfo.setCreateTime(new Date());
-//        userInfo.setUpdateTime(new Date());
-//        userInfo.setName("user1");
-//        userInfo.setTelephone("15967691873");
-//        userInfo.setPassword("132564awd");
+        logger.info("/api/register post 用户注册");
+        Date date = new Date();
+        userInfo.setCreateTime(date);
+        userInfo.setUpdateTime(date);
+        userInfo.setTelephone("15967691873");
+        userInfo.setPassword("132564awd");
         int i = userInfoService.addUser(userInfo);
 
         return ApiResponse.ok(i);
     }
 
     @PostMapping(value = "/api/getSession")
-    ApiResponse getSession(@RequestParam("code") String code) {
-        logger.info("/api/getSession post request");
+    ApiResponse getSession(@RequestBody CodeRequest code) {
+        logger.info("/api/getSession post 发送code");
 
-        return ApiResponse.ok(code);
+        return ApiResponse.ok(code.getCode());
     }
 }
