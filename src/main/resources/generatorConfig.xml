@@ -57,8 +57,8 @@
 
         <table domainObjectName="UserInfo" tableName="user_info">
             <generatedKey column="id"
-                          sqlStatement="MYSQL"
-                          identity="true" type="post"/>
+                          sqlStatement="select ${@com.tencent.wxcloudrun.util.IdWorker@nextId()} from dual"
+                          identity="false" type="pre"/>
         </table>
     </context>
 </generatorConfiguration>

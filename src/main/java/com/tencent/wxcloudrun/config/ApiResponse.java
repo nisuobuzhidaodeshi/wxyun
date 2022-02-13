@@ -18,7 +18,7 @@ public final class ApiResponse {
   }
   
   public static ApiResponse ok() {
-    return new ApiResponse(0, "", new HashMap<>());
+    return new ApiResponse(0, "success", new HashMap<>());
   }
 
   public static ApiResponse ok(Object data) {
