@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface UserInfoService {
     List<UserInfo> getUser(UserInfoExample example);
 
-    int addUser(UserInfo userInfo);
+    int save(UserInfo userInfo);
 }

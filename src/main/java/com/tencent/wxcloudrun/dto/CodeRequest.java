@@ -6,4 +6,12 @@ import lombok.Data;
 public class CodeRequest {
 
     private String code;
+
+    private String nickName;
+
+    private String avatarUrl;
+
+    private String encryptedData;
+
+    private String iv;
 }
