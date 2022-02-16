@@ -22,17 +22,18 @@ import java.util.Arrays;
  * @date 2022/2/15 10:59
  */
 public class AesCbcUtil {
+    // 解密后的结果需要进行的编码
+    final static String UTF_8 = "UTF-8";
     /**
      * AES解密
      *
      * @param data          				 // 密文，被加密的数据
      * @param sessionKey           				 // 秘钥
      * @param iv            				 // 偏移量
-     * @param encodingFormat 	// 解密后的结果需要进行的编码
      * @return
      * @throws Exception
      */
-    public static String decrypt(String data, String sessionKey, String iv, String encodingFormat){
+    public static String decrypt(String data, String sessionKey, String iv){
         Logger logger = LoggerFactory.getLogger(CounterController.class);
         String result = "";
         // 被加密的数据
@@ -61,7 +62,7 @@ public class AesCbcUtil {
             cipher.init(Cipher.DECRYPT_MODE, spec, parameters);
             byte[] resultByte = cipher.doFinal(dataByte);
             if (null != resultByte && resultByte.length > 0) {
-                result = new String(resultByte, encodingFormat);
+                result = new String(resultByte, UTF_8);
             }
         } catch (NoSuchAlgorithmException e) {
             logger.error(e.getMessage(), e);

@@ -72,7 +72,7 @@ public class UserInfoController {
         return ApiResponse.ok(i);
     }
 
-    //登录获取用户信息
+    //进入小程序后先获取用户openId
     @PostMapping(value = "/api/getSession")
     ApiResponse getSession(@RequestBody CodeRequest codeRequest) {
         logger.info("/api/getSession post 发送code");
@@ -118,7 +118,7 @@ public class UserInfoController {
         UserInfo userInfo = codeRequestConvertor.toUserInfo(codeRequest);
         OpenIdSession openIdSession = JacksonUtils.readValue(content, OpenIdSession.class);
         userInfo.setOpenId(openIdSession.getOpenid());
-        System.out.println(codeRequest.toString());
+        userInfo.setSessionKey(openIdSession.getSession_key());
 
         //根据openid有则修改，无则新增
         userInfoService.save(userInfo);
@@ -132,10 +132,30 @@ public class UserInfoController {
         userInfoExample.createCriteria().andOpenIdEqualTo(secret.getOpenId());
         List<UserInfo> userInfoList = userInfoService.getUser(userInfoExample);
         UserInfo userInfo = userInfoSecretConvertor.toUserInfo(secret);
+        if (CollectionUtils.isEmpty(userInfoList)){
+            return ApiResponse.error("未获取用户信息");
+        }
+        UserInfo userInfoDB = userInfoList.get(0);
         String decrypt = AesCbcUtil.decrypt(secret.getEncryptedData(),
-                userInfoList.get(0).getSessionKey(), secret.getIv(), "UTF-8");
+                userInfoDB.getSessionKey(), secret.getIv());
+        System.out.println(decrypt);
         userInfo.setDeleted(true);
+        userInfo.setOpenId(userInfoDB.getOpenId());
         int i = userInfoService.save(userInfo);
         return ApiResponse.ok(i);
+    }
+
+    //获取用户授权后的信息
+    @PostMapping(value = "/api/getUserInfo")
+    ApiResponse getUserInfo(@RequestBody UserInfoSecret request) {
+        logger.info("/api/saveUserInfo post 保存完整用户信息");
+        UserInfoExample userInfoExample = new UserInfoExample();
+        userInfoExample.createCriteria().andOpenIdEqualTo(request.getOpenId());
+        List<UserInfo> userInfoList = userInfoService.getUser(userInfoExample);
+        if (CollectionUtils.isEmpty(userInfoList)){
+            return ApiResponse.error("获取用户信息失败");
+        }
+        UserInfo userInfoDB = userInfoList.get(0);
+        return ApiResponse.ok(userInfoDB);
     }
 }
