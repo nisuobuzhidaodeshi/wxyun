@@ -72,34 +72,10 @@ public class UserInfoController {
         if (!CollectionUtils.isEmpty(counter)){
             userInfo = counter.get(0);
         }
-
         return ApiResponse.ok(userInfo);
     }
 
-    //用户登录通过code获取openID,生成Wx-Token
-    @PostMapping(value = "/api/getToken")
-    ApiResponse getToken(@RequestBody CodeRequest codeRequest) {
-        logger.info("/api/getToken post 发送code");
-
-        //通过wx传入的code获取key_session和openid
-        String code = codeRequest.getCode();
-
-        //创建Http get请求
-        HttpGet httpGet = new HttpGet( "https://api.weixin.qq.com/sns/jscode2session?appid=" +appId + "&secret="
-                + secret + "&js_code=" + code + "&grant_type=authorization_code");
-        OpenIdSession openIdSession = HttpUtil.execute(httpGet, OpenIdSession.class);
-
-        UserInfo userInfo = codeRequestConvertor.toUserInfo(codeRequest);
-        userInfo.setOpenId(openIdSession.getOpenid());
-        userInfo.setSessionKey(openIdSession.getSession_key());
-
-        //根据openid查询用户有则修改，无则新增
-        userInfoService.save(userInfo);
-        UserTokenManager.generateToken(openIdSession.getOpenid());
-        return ApiResponse.ok(openIdSession.getOpenid());
-    }
-
-    //微信调用接口获取数据后,将头像、昵称传回后端保存
+    //微信调用接口获取数据后,将头像、昵称传回后端保存---接口未使用
     @PostMapping(value = "/api/saveUserInfo")
     ApiResponse saveUserInfo(@LoginUser String openId, @RequestBody  UserInfoSecret userInfoSecret, HttpServletRequest request) {
         logger.info("/api/saveUserInfo post 保存完整用户信息");
