@@ -12,7 +12,7 @@
         <property name="javaFileEncoding" value="UTF-8"/>
 
 <!--        &lt;!&ndash; 分页插件 &ndash;&gt;-->
-<!--        <plugin type="com.tencent.wxcloudrun.mybatis.MySQLLogicalDeletePlugin">-->
+<!--        <plugin type="com.tencent.wxcloudrun.mybatis.MySQLPhysicalDeletePlugin">-->
 <!--            &lt;!&ndash; 是否生成manager &ndash;&gt;-->
 <!--            <property name="generateManager" value="false"/>-->
 <!--            &lt;!&ndash; 是否生成controller &ndash;&gt;-->
