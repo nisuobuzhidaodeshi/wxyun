@@ -24,8 +24,8 @@ public class MySQLPhysicalDeletePlugin extends MysqlBasePlugin {
     }
 
     public static void main(String[] args) {
-        String config = MySQLLogicalDeletePlugin.class.getClassLoader().getResource("config.xml").getFile();
-        String[] arg = {"-configfile", config};
+        String config = MySQLPhysicalDeletePlugin.class.getClassLoader().getResource("generatorConfig.xml").getFile();
+        String[] arg = { "-configfile", config, "-overwrite" };
         ShellRunner.main(arg);
     }
 

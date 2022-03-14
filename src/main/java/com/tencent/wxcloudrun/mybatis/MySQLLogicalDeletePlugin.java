@@ -24,8 +24,8 @@ public class MySQLLogicalDeletePlugin extends MysqlBasePlugin {
     }
 
     public static void main(String[] args) {
-        String config = MySQLLogicalDeletePlugin.class.getClassLoader().getResource("config.xml").getFile();
-        String[] arg = {"-configfile", config};
+        String config = MySQLLogicalDeletePlugin.class.getClassLoader().getResource("generatorConfig.xml").getFile();
+        String[] arg = { "-configfile", config, "-overwrite" };
         ShellRunner.main(arg);
     }
 
@@ -342,10 +342,12 @@ public class MySQLLogicalDeletePlugin extends MysqlBasePlugin {
         element.getElements().add(new TextElement(
                 "update " + introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime() + " set "
                         + CloumnEnum.IS_DELETED.getSql() + " = " + getIdColumnName(introspectedTable) + ","
-                        + CloumnEnum.UPDATE_AT.getSql() + " = #{record." + CloumnEnum.UPDATE_AT.getClazz() + "},"
-                        + CloumnEnum.UPDATE_BY_NAME.getSql() + " = #{record." + CloumnEnum.UPDATE_BY_NAME.getClazz() + "},"
-                        + CloumnEnum.UPDATE_BY.getSql() + " = #{record." + CloumnEnum.UPDATE_BY.getClazz() + "}"
+                        + CloumnEnum.UPDATE_AT.getSql() + " = #{record." + CloumnEnum.UPDATE_AT.getClazz() + "}"
                         + " where id = #{id,jdbcType=BIGINT}"));
+//                        + CloumnEnum.UPDATE_AT.getSql() + " = #{record." + CloumnEnum.UPDATE_AT.getClazz() + "},"
+//                        + CloumnEnum.UPDATE_BY_NAME.getSql() + " = #{record." + CloumnEnum.UPDATE_BY_NAME.getClazz() + "},"
+//                        + CloumnEnum.UPDATE_BY.getSql() + " = #{record." + CloumnEnum.UPDATE_BY.getClazz() + "}"
+
 
         customWhereSqlForPrimaryKey(element);
 
@@ -399,9 +401,9 @@ public class MySQLLogicalDeletePlugin extends MysqlBasePlugin {
         element.getElements().add(new TextElement(
                 "update " + introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime() + " set "
                         + CloumnEnum.IS_DELETED.getSql() + " = " + getIdColumnName(introspectedTable) + ","
-                        + CloumnEnum.UPDATE_AT.getSql() + " = #{record." + CloumnEnum.UPDATE_AT.getClazz() + "},"
-                        + CloumnEnum.UPDATE_BY_NAME.getSql() + " = #{record." + CloumnEnum.UPDATE_BY_NAME.getClazz() + "},"
-                        + CloumnEnum.UPDATE_BY.getSql() + " = #{record." + CloumnEnum.UPDATE_BY.getClazz() + "}"));
+                        + CloumnEnum.UPDATE_AT.getSql() + " = #{record." + CloumnEnum.UPDATE_AT.getClazz() + "}"));
+//                        + CloumnEnum.UPDATE_BY_NAME.getSql() + " = #{record." + CloumnEnum.UPDATE_BY_NAME.getClazz() + "},"
+//                        + CloumnEnum.UPDATE_BY.getSql() + " = #{record." + CloumnEnum.UPDATE_BY.getClazz() + "}"));
 
         XmlElement includeElement = new XmlElement("include");
         includeElement.addAttribute(new Attribute("refid", "Update_By_Example_Where_Clause"));

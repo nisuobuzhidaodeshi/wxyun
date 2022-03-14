@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2022/2/17 16:36
  */
 @Data
-public class RegisterRequest extends CodeRequest{
+public class RegisterReq extends CodeRequest{
 
     private String rawData;
 

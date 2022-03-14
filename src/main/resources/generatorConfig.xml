@@ -12,14 +12,14 @@
         <property name="javaFileEncoding" value="UTF-8"/>
 
 <!--        &lt;!&ndash; 分页插件 &ndash;&gt;-->
-<!--        <plugin type="com.tencent.wxcloudrun.mybatis.MySQLPhysicalDeletePlugin">-->
-<!--            &lt;!&ndash; 是否生成manager &ndash;&gt;-->
-<!--            <property name="generateManager" value="false"/>-->
-<!--            &lt;!&ndash; 是否生成controller &ndash;&gt;-->
-<!--            <property name="generateController" value="false"/>-->
-<!--            &lt;!&ndash; 是否使用lombok &ndash;&gt;-->
-<!--            <property name="enableLombok" value="true"/>-->
-<!--        </plugin>-->
+        <plugin type="com.tencent.wxcloudrun.mybatis.MySQLLogicalDeletePlugin">
+            <!-- 是否生成manager -->
+            <property name="generateManager" value="false"/>
+            <!-- 是否生成controller -->
+            <property name="generateController" value="false"/>
+            <!-- 是否使用lombok -->
+            <property name="enableLombok" value="true"/>
+        </plugin>
 
         <!-- 注释，修改配置会影响MySQLPaginationPlugin的执行 -->
         <commentGenerator>
@@ -55,7 +55,13 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table domainObjectName="UserInfo" tableName="user_info">
+<!--        <table domainObjectName="UserInfo" tableName="user_info">-->
+<!--            <generatedKey column="id"-->
+<!--                          sqlStatement="select ${@com.tencent.wxcloudrun.util.IdWorker@nextId()} from dual"-->
+<!--                          identity="false" type="pre"/>-->
+<!--        </table>-->
+
+        <table domainObjectName="UserRecord" tableName="user_record">
             <generatedKey column="id"
                           sqlStatement="select ${@com.tencent.wxcloudrun.util.IdWorker@nextId()} from dual"
                           identity="false" type="pre"/>

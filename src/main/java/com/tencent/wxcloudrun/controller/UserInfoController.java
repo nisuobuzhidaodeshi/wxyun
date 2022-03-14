@@ -2,38 +2,22 @@ package com.tencent.wxcloudrun.controller;
 
 import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.config.Interceptor.annotation.LoginUser;
-import com.tencent.wxcloudrun.convertor.CodeRequestConvertor;
-import com.tencent.wxcloudrun.convertor.RegisterRequestConvertor;
+import com.tencent.wxcloudrun.convertor.RegisterReqConvertor;
 import com.tencent.wxcloudrun.convertor.UserInfoSecretConvertor;
 import com.tencent.wxcloudrun.dto.*;
 import com.tencent.wxcloudrun.model.UserInfo;
 import com.tencent.wxcloudrun.model.UserInfoExample;
 import com.tencent.wxcloudrun.service.UserInfoService;
 import com.tencent.wxcloudrun.service.UserTokenManager;
-import com.tencent.wxcloudrun.util.AesCbcUtil;
 import com.tencent.wxcloudrun.util.HttpUtil;
-import com.tencent.wxcloudrun.util.JacksonUtils;
-import com.tencent.wxcloudrun.util.SignatureUtil;
-import org.apache.http.Header;
-import org.apache.http.HttpRequest;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -49,12 +33,9 @@ public class UserInfoController {
     public String secret;
 
     @Autowired
-    private CodeRequestConvertor codeRequestConvertor;
-
-    @Autowired
     private UserInfoSecretConvertor userInfoSecretConvertor;
     @Autowired
-    private RegisterRequestConvertor registerRequestConvertor;
+    private RegisterReqConvertor registerReqConvertor;
 
 
     public UserInfoController(@Autowired UserInfoService userInfoService) {
@@ -77,10 +58,10 @@ public class UserInfoController {
 
     //微信调用接口获取数据后,将头像、昵称传回后端保存---接口未使用
     @PostMapping(value = "/api/saveUserInfo")
-    ApiResponse saveUserInfo(@LoginUser String openId, @RequestBody  UserInfoSecret userInfoSecret, HttpServletRequest request) {
+    ApiResponse saveUserInfo(@LoginUser String openId, @RequestBody  UserInfoSecret userInfoSecret) {
         logger.info("/api/saveUserInfo post 保存完整用户信息");
         if (openId == null || openId.length() == 0){
-            ApiResponse.unLogin();
+            return ApiResponse.unLogin();
         }
         UserInfoExample userInfoExample = new UserInfoExample();
         userInfoExample.createCriteria().andOpenIdEqualTo(openId);
@@ -102,22 +83,19 @@ public class UserInfoController {
 
     //登录接口，接收保存头像、昵称信息
     @PostMapping(value = "/api/wxLogin")
-    ApiResponse registerUser(@RequestBody RegisterRequest request) {
-
-        //TODO
+    ApiResponse registerUser(@RequestBody RegisterReq request) {
         logger.info("/api/wxLogin post 保存完整用户信息");
 
         //通过wx传入的code获取key_session和openid
         String code = request.getCode();
         ApiResponse ok = null;
-
         try {
             //创建Http get请求
             HttpGet httpGet = new HttpGet( "https://api.weixin.qq.com/sns/jscode2session?appid=" +appId + "&secret="
                     + secret + "&js_code=" + code + "&grant_type=authorization_code");
             OpenIdSession openIdSession = HttpUtil.execute(httpGet, OpenIdSession.class);
 
-            UserInfo userInfo = registerRequestConvertor.toUserInfo(request);
+            UserInfo userInfo = registerReqConvertor.toUserInfo(request);
             //根据openID查询数据库是否已有记录
 //        UserInfoExample userInfoExample = new UserInfoExample();
 //        userInfoExample.createCriteria().andOpenIdEqualTo(openIdSession.getOpenid());

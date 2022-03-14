@@ -27,7 +27,7 @@ public class TokenInterceptor implements HandlerMethodArgumentResolver {
         if(token == null || token.isEmpty()){
             return null;
         }
-
+        //token时效校验，未过期就重续时间
         return UserTokenManager.getOpenId(token);
     }
 }

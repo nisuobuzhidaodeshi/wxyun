@@ -107,6 +107,7 @@
                 </configuration>
             </plugin>
             <plugin>
+                <!-- 部署云端时使用-->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -118,7 +119,7 @@
                     </excludes>
                 </configuration>
 
-                <!-- 代码生成 -->
+                <!-- 代码生成， 部署云端时注释掉依赖-->
                 <!-- mvn -Dmybatis.generator.overwrite=true -Dmybatis.generator.configurationFile=src/main/resources/generatorConfig.xml mybatis-generator:generate -->
 <!--                <groupId>org.mybatis.generator</groupId>-->
 <!--                <artifactId>mybatis-generator-maven-plugin</artifactId>-->

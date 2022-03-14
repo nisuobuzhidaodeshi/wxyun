@@ -26,7 +26,7 @@ public class UserTokenManager {
         }else {
             //重置token过期时间
             Date update = new Date();
-            Date expire = DateUtils.addDays(update,1);
+            Date expire = DateUtils.addMinutes(update,60);//测试用时间1分钟过期
             userToken.setExpireTime(expire);
             tokenMap.put(userToken.getToken(),userToken);
         }
@@ -46,7 +46,7 @@ public class UserTokenManager {
 
         //token过期时间24小时
         Date create = new Date();
-        Date expire = DateUtils.addDays(create,1);
+        Date expire = DateUtils.addMinutes(create,60);//测试用时间1分钟过期
 
         userToken = new UserToken();
         userToken.setToken(openId);
