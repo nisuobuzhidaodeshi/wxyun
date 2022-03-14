@@ -98,6 +98,7 @@ public class MyController {
         userRecord.setId(Long.valueOf(recordReq.getId()));
         userRecord.setRecord(recordReq.getUpdateRecord());
         int save = userRecordService.save(userRecord);
+
         return ApiResponse.ok(save);
     }
 }
