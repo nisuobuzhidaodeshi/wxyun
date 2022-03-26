@@ -105,7 +105,6 @@ public class UserInfoController {
 //            return ApiResponse.error("用户已注册");
 //        }
 
-            userInfo.setDeleted(true);
             userInfo.setOpenId(openIdSession.getOpenid());
             userInfo.setSessionKey(openIdSession.getSession_key());
             userInfoService.save(userInfo);

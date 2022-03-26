@@ -18,7 +18,6 @@ public class RegisterReqConvertor {
             userInfo = new UserInfo();
             userInfo.setAvatarUrl(request.getAvatarUrl());
             userInfo.setNickName(request.getNickName());
-            userInfo.setDeleted(false);
         }
         return userInfo;
     }

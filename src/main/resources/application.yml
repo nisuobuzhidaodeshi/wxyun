@@ -5,7 +5,8 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_ADDRESS:127.0.0.1:3306}/${MYSQL_DATABASE:springboot_demo}?serverTimezone=Asia/Shanghai
+    #url: jdbc:mysql://${MYSQL_ADDRESS:10.0.16.3:3306}/${MYSQL_DATABASE:springboot_demo}?serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://${MYSQL_ADDRESS:127.0.1.1:3306}/${MYSQL_DATABASE:springboot_demo}?serverTimezone=Asia/Shanghai
     username: ${MYSQL_USERNAME:root}
     password: ${MySQL_PASSWORD:1223}
   mvc:
